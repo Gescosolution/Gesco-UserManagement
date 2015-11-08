@@ -1,5 +1,5 @@
-// Programa de Prueba (con aserciones y _mocha_) para submódulo de gestión de Usuarios y Empleados en Gesco
-//---------------------------------------------------------------------------------------------------------
+// Programa de Pruebas (con aserciones y _mocha_) para submódulo de gestión de Usuarios y Empleados en Gesco
+//----------------------------------------------------------------------------------------------------------
 
 // **Autor:** Abel Josué Francisco Agra
 // **Versión:** _0.1_
