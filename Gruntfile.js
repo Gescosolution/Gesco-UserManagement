@@ -3,7 +3,7 @@
 
 module.exports = function(grunt) {
 
-	// Configuraci—n de actividades o tareas recurrentes en el proyecto
+	// Configuracion de actividades o tareas recurrentes en el proyecto
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		auto_install: {
@@ -44,9 +44,9 @@ module.exports = function(grunt) {
     			}
   			}
 		},
-		// Analizar sint‡cticamente el c—digo JS
+		// Analizar sintacticamente el c—digo JS
 		jshint: {
-  			// Definir los archivos a los que aplicar el an‡lisis
+  			// Definir los archivos a los que aplicar el analisis
   			all: ['Gruntfile.js','app.js','controllers/*.js','lib/*.js','test/**/*.js']
 		},
 		// Aplicar acciones cuando algunos archivos cambien
@@ -85,7 +85,7 @@ module.exports = function(grunt) {
 	// Tarea 'install': instalar dependencias del proyecto
 	grunt.registerTask('install', ['auto_install']);
 	
-	// Tarea 'doc': generar la documentaci—n del c—digo
+	// Tarea 'doc': generar la documentacion del codigo
 	grunt.registerTask('doc', ['docco']);
 	
 	// Tarea 'concat': concatenar archivos JS
@@ -94,7 +94,7 @@ module.exports = function(grunt) {
 	// Tarea 'minify': minimizar archivos JS
 	grunt.registerTask('minify', ['uglify']);
 	
-	// Tarea 'check': analizar sint‡cticamente archivos JS
+	// Tarea 'check': analizar sintacticamente archivos JS
 	grunt.registerTask('check', ['jshint']);
 	
 	// Tarea 'watch': supervisar cambios en archivos JS
@@ -103,7 +103,7 @@ module.exports = function(grunt) {
 	// Tarea 'test': aplicar pruebas unitarias definidas
 	grunt.registerTask('test', ['mochaTest']);
 	
-	// Tarea por omisi—n: ejecutar en orden todas las actividades definidas
+	// Tarea por omision: ejecutar en orden todas las actividades definidas
 	grunt.registerTask('default', ['auto_install', 'docco', 'concat', 'minify', 'check', 'test']);
 
 };
