@@ -1,0 +1,19 @@
+language: node_js
+node_js:
+    - "0.10"
+    - "0.12"
+    - "4.1"
+sudo: false
+addons:
+  apt:
+    packages:
+    - ldap-utils
+    - slapd
+before_script:
+  - mkdir /tmp/slapd
+  - slapd -f config/ldap/slapd.conf -h ldap://localhost:3389 &
+  - sleep 3
+  - ldapadd -h localhost:3389 -D cn=admin,dc=localhost -f models/local/ldap/ldap_empresa.ldif
+  - ldapadd -h localhost:3389 -D cn=admin,dc=localhost -f models/local/ldap/ldap_oficinas.ldif
+  - ldapadd -h localhost:3389 -D cn=admin,dc=localhost -f models/local/ldap/ldap_roles.ldif
+  - ldapadd -h localhost:3389 -D cn=admin,dc=localhost -f models/local/ldap/ldap_empleados.ldif
