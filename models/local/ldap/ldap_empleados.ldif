@@ -1,0 +1,63 @@
+dn: cn=usuario1,ou=oficina1,dc=localhost
+changetype: add
+objectClass: top
+objectClass: person
+sn: usuario1
+cn: usuario1
+userpassword: usuario1
+
+dn: cn=usuario2,ou=oficina1,dc=localhost
+changetype: add
+objectClass: top
+objectClass: person
+sn: usuario2
+cn: usuario2
+userpassword: usuario2
+
+dn: cn=usuario3,ou=oficina2,dc=localhost
+changetype: add
+objectClass: top
+objectClass: person
+sn: usuario3
+cn: usuario3
+userpassword: usuario3
+
+dn: cn=usuario4,ou=oficina2,dc=localhost
+changetype: add
+objectClass: top
+objectClass: person
+sn: usuario4
+cn: usuario4
+userpassword: usuario4
+
+dn: cn=usuario5,ou=oficina3,dc=localhost
+changetype: add
+objectClass: top
+objectClass: person
+sn: usuario5
+cn: usuario5
+userpassword: usuario5
+
+dn: cn=usuario6,ou=oficina3,dc=localhost
+changetype: add
+objectClass: top
+objectClass: person
+sn: usuario6
+cn: usuario6
+userpassword: usuario6
+
+dn: cn=usuario7,ou=oficina4,dc=localhost
+changetype: add
+objectClass: top
+objectClass: person
+sn: usuario7
+cn: usuario7
+userpassword: usuario7
+
+dn: cn=usuario8,ou=oficina4,dc=localhost
+changetype: add
+objectClass: top
+objectClass: person
+sn: usuario8
+cn: usuario8
+userpassword: usuario8

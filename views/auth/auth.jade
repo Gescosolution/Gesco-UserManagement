@@ -1,0 +1,14 @@
+extends ../general/layout
+
+block content
+	h3=title
+	.container
+		span.error=error
+		span.ok=notificacion
+		form.form-login(action="/login", method="post")
+			h4.form-signin-heading Introduzca Usuario y Contraseña
+			input.input-block-level(type="text", name="username", placeholder="Usuario Empresarial")
+			input.input-block-level(type="password", name="password", placeholder="Contraseña")
+			<br/>
+			<br/>
+			button.btn.btn-large.btn-primary(type="submit") Iniciar Sesión

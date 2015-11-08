@@ -1,0 +1,21 @@
+extends ../general/layout
+
+block content
+	h3 GESCO - Bienvenido '#{username}', su rol es '#{rol}', y su oficina es '#{oficina}'
+	.container
+		p Submódulo correspondiente a la administración y control de datos de Usuarios y Empleados, enmarcado en la aplicación Gesco.
+		
+		p A continuación se listan algunas funcionalidades básicas del módulo de administración de usuarios:
+
+		ul
+			li Controlar el acceso al sistema
+			li Determinar rol del usuario en el sistema, en base a su cargo en la empresa y la oficina a la que pertenece.
+			li Gestionar los datos de los empleados de la empresa (Registro y Edición).
+			li Importar de forma "automática" la información de algunos empleados.
+			li Estandarizar la presentación de información de los empleados de la compañía, cuando ésta provenga de diversas fuentes de datos.
+			li Generar informes estadísticos y otras consultas básicas sobre el acceso de usuarios a la plataforma.
+
+		<br/>
+		<br/>
+		form.form-close(action="/close", method="post")
+			button.btn.btn-large.btn-primary(type="submit") Cerrar Sesión
