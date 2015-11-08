@@ -66,3 +66,35 @@ El desarrollo del módulo de Administración de Usuarios de Gesco, se correspond
 
 * La implementación, proceso de pruebas y despliegue del módulo se realizará aplicando los conceptos indicados en la asignatura, a saber: Desarrollo Basado en Pruebas, Distribución de Componentes, Integración Continua, Automatización de tareas y actividades, Aprovisionamiento de Software y Despliegue Automático.
 * La integración del presente módulo con sistemas externos que no forman parte de la aplicación Gesco, y que, en principio, podrían estar distribuidos geográfica y tecnológicamente, tales como las fuentes de datos de empleados de cada oficina, o el sistema LDAP de autenticación centralizada.
+
+##Elección de Herramientas o Sistemas para el Desarrollo del Proyecto
+
+###Test
+
+Para definir y realizar las pruebas unitarias en el sistema, se ha seleccionado [Mocha](https://mochajs.org/), un _framework_ de pruebas para _JavaScript_ que permite realizar tests asíncronos sobre aplicaciones implementadas en _Node.js_.
+
+Las razones por las que se decidió utilizar este sistema de _Test_ son las siguientes:
+
+* Los _tests_ son escritos con un "Desarrollo Basado en el Comportamiento" ([Behavior-Driven Development](https://en.wikipedia.org/wiki/Behavior-driven_development) ó [BDD](https://en.wikipedia.org/wiki/Behavior-driven_development)), utilizando una serie de sentencias o constructores que buscan simular el "lenguaje natural" (expresado en inglés). Esta manera de especificar las pruebas es sumamente intuitiva, y aún cuando no se esté muy familiarizado con el _framework_, se pueden empezar a diseñar _tests_ realistas y relativamente complejos en poco tiempo.
+* Se puede utilizar cualquier librería de aserciones (_assertions_) definida para realizar y especificar las pruebas, lo cual redunda en una alta flexibilidad y variedad al momento de diseñar los _tests_.
+* Contiene múltiples elementos para facilitar las pruebas en ambientes asíncronos (representativo de _Node.js_).
+* El _framework_ de pruebas _mocha_ se ejecuta en _Node.js_, por lo que presenta una alta integración y cohesión con este lenguaje, y permite realizar las pruebas de aplicaciones escritas en _Node.js_ de forma mucho más sencilla y directa.
+
+Además del conjunto central de funcionalidades de _mocha_, fue necesario incluir otros módulos o componentes para realizar la totalidad de las pruebas definidas. Estos módulos/librerías son:
+
+*_assert_: la librería básica para definir aserciones de prueba y validarlas en _Node.js_. Basicamente, es una manera de que _Node.js_ ejecute pruebas o tests "sobre sí mismo". Con esta librería, se especifican sentencias que deben ser ciertas en un momento dado de la ejecución, y la librería valida que efectivamente sea así.
+*_should_: una librería de aserciones más amplia y diversa que la anterior (_assert_). Además de sus extensiones de funcionalidad y mayor utilidad en general, una de sus principales ventajas es que permite especificar las sentencias de prueba de forma muy expresiva y natural.
+*_supertest_: librería de aserciones para facilitar y simplificar las pruebas sobre servidores y solicitudes _HTTP_.
+
+###Integración Continua
+
+Para llevar a cabo la integración continua se ha elegido el servicio [Travis CI](https://travis-ci.org/), para construir (_build_) y probar (_test_) aplicaciones escritas en múltiples lenguajes (particularmente _Node.js_) alojadas en _GitHub_.
+
+Las razones por las que se decidió utilizar este sistema de Integración Continua son las siguientes:
+
+* Posee una alta integración con _GitHub_, pudiendo "activar" los repositorios sobre los cuales se quiere aplicar la integración continua de forma prácticamente directa.
+* La configuración inicial es muy sencilla, ya que el archivo de configuración de la integración continua (_.travis.yml_) es muy fácil de elaborar, pero a la vez posee numerosas opciones para definir el ambiente de ejecución de la integración continua.
+* Cada vez que se materialice un cambio en el repositorio de _GitHub_, se iniciará la ejecución de la integración continua y pruebas de forma automática.
+* El servicio notifica de forma inmediata sobre los errores ocurridos en la construcción del proyecto
+* El ambiente en el que se ejecutan las pruebas es altamente configurable, pudiendo ejecutar numerosas acciones e instalaciones (por ejemplo, de paquetes y otros programas), tal como si se estuviera en un sistema operativo independiente. De esta forma, si las pruebas requieren de sistemas "externos" (tal como _OpenLDAP_ o _MySQL_), estos pueden ser instalados en el ambiente de ejecución de _Travis-CI_ utilizando comandos _UNIX_.
+* Los grupos de pruebas pueden ser ejecutados simultáneamente en diversas versiones de un mismo lenguaje de programación (validando la compatibilidad de la aplicación).
