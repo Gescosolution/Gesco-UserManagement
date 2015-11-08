@@ -1,6 +1,8 @@
 # Gesco-UserManagement
 Submódulo correspondiente a la administración y control de datos de Usuarios y Empleados, enmarcado en la aplicación Gesco.
 
+[![Build Status](https://travis-ci.org/Gescosolution/Gesco-UserManagement.svg?branch=master)](https://travis-ci.org/Gescosolution/Gesco-UserManagement)
+
 Publicado bajo licencia GNU GENERAL PUBLIC LICENSE Version 2.
 
 El presente módulo participa en el certamen de Proyectos libres de la Universidad de Granada 2015-2016, como parte del proyecto general [Gesco](https://github.com/Gescosolution/Gesco). Las bases de dicho certamen se encuentran [aquí](https://docs.google.com/document/d/16UsdUV_XXuPUh-Imz4PSgh-2ES_YaAJpZ8fNrbTVpMA/edit).
