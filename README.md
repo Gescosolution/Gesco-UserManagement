@@ -9,6 +9,8 @@ El presente módulo participa en el certamen de Proyectos libres de la Universid
 
 **Elaborado por:** Abel Josué Francisco Agra ([@jfrancisco4490](https://github.com/jfrancisco4490))
 
+**Enlace al sitio _web_ en el que se describe el desarrollo del proyecto (_gh-pages_)**: [http://gescosolution.github.io/Gesco-UserManagement/](http://gescosolution.github.io/Gesco-UserManagement/)
+
 ##Descripción
 
 Consiste en un módulo _web_ para el sistema Gesco (Manejo y Planificación de Proyectos). 
