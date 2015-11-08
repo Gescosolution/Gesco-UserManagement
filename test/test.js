@@ -80,7 +80,7 @@ describe('Auth_Func_Tests', function(){
 		it('Ingresando Username en blanco...', function(done){
     		request(app)
       		.post('/login')
-      		.send({ password: "password" })
+      		.send({ username: "", password: "password" })
       		.expect(200)
       		.end(function(err, res){
       			if (err) {
@@ -98,7 +98,7 @@ describe('Auth_Func_Tests', function(){
 		it('Ingresando Contraseña en blanco...', function(done){
     		request(app)
       		.post('/login')
-      		.send({ username: "username" })
+      		.send({ username: "username", password: null })
       		.expect(200)
       		.end(function(err, res){
       			if (err) {
@@ -116,7 +116,7 @@ describe('Auth_Func_Tests', function(){
 		it('Ingresando Username y Password en blanco...', function(done){
     		request(app)
       		.post('/login')
-      		.send({})
+      		.send({ username: "  ", password: null})
       		.expect(200)
       		.end(function(err, res){
       			if (err) {
