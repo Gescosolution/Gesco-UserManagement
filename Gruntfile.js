@@ -1,4 +1,5 @@
-'use strict';
+(function () {
+   'use strict';
 
 module.exports = function(grunt) {
 
@@ -46,24 +47,24 @@ module.exports = function(grunt) {
 		// Analizar sint‡cticamente el c—digo JS
 		jshint: {
   			// Definir los archivos a los que aplicar el an‡lisis
-  			files: ['gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
-  			// Configurar JSHint
-  			options: {
-    			globals: {
-      				jQuery: true,
-      				console: true,
-      				module: true
-    			}
-  			}
+  			all: ['Gruntfile.js','app.js','controllers/*.js','lib/*.js','test/**/*.js']
 		},
 		// Aplicar acciones cuando algunos archivos cambien
 		watch: {
   			files: ['<%= jshint.files %>'],
   			tasks: ['jshint']
 		},
+    	mochaTest: {
+      		test: {
+        		options: {
+          			reporter: 'spec' 
+        		},
+        		src: ['test/**/*.js']
+      		}
+    	},
   		docco: {
 			debug: {
-	  			src: ['app.js','controllers/*.js','lib/*.js','test/*.js'],
+	  			src: ['app.js','controllers/*.js','lib/*.js','test/**/*.js'],
 	  			options: {
 		  			output: 'docs/'
 	  			}
@@ -78,6 +79,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-mocha-test');
 
 	// Tarea 'install': instalar dependencias del proyecto
 	grunt.registerTask('install', ['auto_install']);
@@ -86,7 +89,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('doc', ['docco']);
 	
 	// Tarea 'concat': concatenar archivos JS
-	grunt.registerTask('concat', ['concat']);
+	grunt.registerTask('unify', ['concat']);
 	
 	// Tarea 'minify': minimizar archivos JS
 	grunt.registerTask('minify', ['uglify']);
@@ -95,9 +98,14 @@ module.exports = function(grunt) {
 	grunt.registerTask('check', ['jshint']);
 	
 	// Tarea 'watch': supervisar cambios en archivos JS
-	grunt.registerTask('watch', ['watch']);
+	grunt.registerTask('verify', ['watch']);
+	
+	// Tarea 'test': aplicar pruebas unitarias definidas
+	grunt.registerTask('test', ['mochaTest']);
 	
 	// Tarea por omisi—n: ejecutar en orden todas las actividades definidas
-	grunt.registerTask('default', ['auto_install', 'docco', 'concat', 'minify', 'check']);
+	grunt.registerTask('default', ['auto_install', 'docco', 'concat', 'minify', 'check', 'test']);
 
 };
+
+}());

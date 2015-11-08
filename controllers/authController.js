@@ -27,7 +27,7 @@ module.exports.controller = function(app) {
 	app.get('/', function(req, res, next) {
   
   		// La pagina de inicio se encuentra en el directorio 'auth' de las vistas ('views')
-		res.render('auth/auth', { title: 'GESCO - Iniciar Sesión' })
+		res.render('auth/auth', { title: 'GESCO - Iniciar Sesión' });
       
 	});
   
@@ -38,7 +38,7 @@ module.exports.controller = function(app) {
 		req.session.destroy();
 		
 		// Volver a página de inicio del sistema
-		res.render('auth/auth', { title: 'GESCO - Iniciar Sesión', notificacion: 'Ha cerrado la sesión correctamente!' })
+		res.render('auth/auth', { title: 'GESCO - Iniciar Sesión', notificacion: 'Ha cerrado la sesión correctamente!' });
 	});
   
 	// Procesar solicitud de tipo Inicio de Sesión (acción '/login' en el formulario)
@@ -49,10 +49,10 @@ module.exports.controller = function(app) {
   		var password = req.body.password;
   
   		// Verificar que los campos ingresados no sean vacíos
-		if((username == null || username.trim().length < 1) ||
-		   (password == null || password.trim().legth < 1)){
+		if((username === null || username.trim().length < 1) ||
+		   (password === null || password.trim().legth < 1)){
 		
-			res.render('auth/auth', { title: 'GESCO - Iniciar Sesión', error: 'El nombre de usuario y/o la contraseña NO pueden ser vacíos(as)' })
+			res.render('auth/auth', { title: 'GESCO - Iniciar Sesión', error: 'El nombre de usuario y/o la contraseña NO pueden ser vacíos(as)' });
 		
 		} else {
 		
@@ -116,20 +116,20 @@ module.exports.controller = function(app) {
       								req.session.oficina = oficina;
       						
       								// Permitir acceso del usuario al sistema
-      								res.render('general/main', { title: 'GESCO - Sistema de Gestión y Administración de Proyectos', username: req.session.username, rol: req.session.rol, oficina: req.session.oficina })
-      							})
-      						})
+      								res.render('general/main', { title: 'GESCO - Sistema de Gestión y Administración de Proyectos', username: req.session.username, rol: req.session.rol, oficina: req.session.oficina });
+      							});
+      						});
       						
     					});
     					
     					// La búsqueda no dió un resultado concreto
   						search.on('searchReference', function(referral) {
-    						res.render('auth/auth', { title: 'GESCO - Iniciar Sesión', error: 'Error en el sistema. Intente más tarde.' })
+    						res.render('auth/auth', { title: 'GESCO - Iniciar Sesión', error: 'Error en el sistema. Intente más tarde.' });
   						});
   						
   						// Ocurrió un error al ejecutar la búsqueda
   						search.on('error', function(err) {
-    						res.render('auth/auth', { title: 'GESCO - Iniciar Sesión', error: 'Error en el sistema. Intente más tarde.' })
+    						res.render('auth/auth', { title: 'GESCO - Iniciar Sesión', error: 'Error en el sistema. Intente más tarde.' });
   						});
   						
   						// Terminó la búsqueda en el LDAP
@@ -138,7 +138,7 @@ module.exports.controller = function(app) {
   							if(!hayResult){
   							
   								// La combinación de usuario/contraseña es incorrecta (no existe en servidor LDAP)
-    							res.render('auth/auth', { title: 'GESCO - Iniciar Sesión', error: 'La combinación de nombre de usuario y contraseña es incorrecta' })
+    							res.render('auth/auth', { title: 'GESCO - Iniciar Sesión', error: 'La combinación de nombre de usuario y contraseña es incorrecta' });
     						}
   						});
   					});
@@ -148,4 +148,4 @@ module.exports.controller = function(app) {
       	}
 	});
 
-}
+};
