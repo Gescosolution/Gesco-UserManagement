@@ -82,9 +82,9 @@ Las razones por las que se decidió utilizar este sistema de _Test_ son las sigu
 
 Además del conjunto central de funcionalidades de _mocha_, fue necesario incluir otros módulos o componentes para realizar la totalidad de las pruebas definidas. Estos módulos/librerías son:
 
-*_assert_: la librería básica para definir aserciones de prueba y validarlas en _Node.js_. Basicamente, es una manera de que _Node.js_ ejecute pruebas o tests "sobre sí mismo". Con esta librería, se especifican sentencias que deben ser ciertas en un momento dado de la ejecución, y la librería valida que efectivamente sea así.
-*_should_: una librería de aserciones más amplia y diversa que la anterior (_assert_). Además de sus extensiones de funcionalidad y mayor utilidad en general, una de sus principales ventajas es que permite especificar las sentencias de prueba de forma muy expresiva y natural.
-*_supertest_: librería de aserciones para facilitar y simplificar las pruebas sobre servidores y solicitudes _HTTP_.
+* _assert_: la librería básica para definir aserciones de prueba y validarlas en _Node.js_. Basicamente, es una manera de que _Node.js_ ejecute pruebas o tests "sobre sí mismo". Con esta librería, se especifican sentencias que deben ser ciertas en un momento dado de la ejecución, y la librería valida que efectivamente sea así.
+* _should_: una librería de aserciones más amplia y diversa que la anterior (_assert_). Además de sus extensiones de funcionalidad y mayor utilidad en general, una de sus principales ventajas es que permite especificar las sentencias de prueba de forma muy expresiva y natural.
+* _supertest_: librería de aserciones para facilitar y simplificar las pruebas sobre servidores y solicitudes _HTTP_.
 
 ###Integración Continua
 
