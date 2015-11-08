@@ -71,6 +71,14 @@ El desarrollo del módulo de Administración de Usuarios de Gesco, se correspond
 
 ##Elección de Herramientas o Sistemas para el Desarrollo del Proyecto
 
+### Construcción
+
+Para especificar y ejecutar tareas comunes o recurrentes en el desarrollo del proyecto, se ha decidido utilizar [Grunt](http://gruntjs.com/), una herramienta para automatizar actividades en _JavaScript_.
+
+Una de las principales ventajas de _Grunt_ es que cuenta con numerosos complementos (_plugins_) que permiten automatizar prácticamente cualquier actividad que deba ser llevada a cabo en el desarrollo del proyecto de forma reiterada, tales como instalación de dependencias, análisis sintáctico del código fuente, minificación y/o concatenación de archivos _JS_, o ejecución de pruebas unitarias, entre muchas otras.
+
+En el archivo [Gruntfile.js](https://github.com/Gescosolution/Gesco-UserManagement/blob/master/Gruntfile.js) del proyecto se pueden ver las especificaciones de dichas actividades o tareas.
+
 ###Test
 
 Para definir y realizar las pruebas unitarias en el sistema, se ha seleccionado [Mocha](https://mochajs.org/), un _framework_ de pruebas para _JavaScript_ que permite realizar tests asíncronos sobre aplicaciones implementadas en _Node.js_.
@@ -87,6 +95,8 @@ Además del conjunto central de funcionalidades de _mocha_, fue necesario inclui
 * _assert_: la librería básica para definir aserciones de prueba y validarlas en _Node.js_. Basicamente, es una manera de que _Node.js_ ejecute pruebas o tests "sobre sí mismo". Con esta librería, se especifican sentencias que deben ser ciertas en un momento dado de la ejecución, y la librería valida que efectivamente sea así.
 * _should_: una librería de aserciones más amplia y diversa que la anterior (_assert_). Además de sus extensiones de funcionalidad y mayor utilidad en general, una de sus principales ventajas es que permite especificar las sentencias de prueba de forma muy expresiva y natural.
 * _supertest_: librería de aserciones para facilitar y simplificar las pruebas sobre servidores y solicitudes _HTTP_.
+
+En el archivo [test.js](https://github.com/Gescosolution/Gesco-UserManagement/blob/master/test/test.js) del proyecto, se pueden observar las pruebas unitarias y grupos de tests que han sido definidos(as) durante el desarrollo actual.
 
 ###Integración Continua
 
