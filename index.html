@@ -44,6 +44,8 @@
 
 <p><strong>Elaborado por:</strong> Abel Josué Francisco Agra (<a href="https://github.com/jfrancisco4490">@jfrancisco4490</a>)</p>
 
+<p><strong>Enlace al sitio <em>web</em> en el que se describe el desarrollo del proyecto (<em>gh-pages</em>)</strong>: <a href="http://gescosolution.github.io/Gesco-UserManagement/">http://gescosolution.github.io/Gesco-UserManagement/</a></p>
+
 <h2>
 <a id="descripción" class="anchor" href="#descripci%C3%B3n" aria-hidden="true"><span class="octicon octicon-link"></span></a>Descripción</h2>
 
@@ -118,6 +120,15 @@
 <a id="elección-de-herramientas-o-sistemas-para-el-desarrollo-del-proyecto" class="anchor" href="#elecci%C3%B3n-de-herramientas-o-sistemas-para-el-desarrollo-del-proyecto" aria-hidden="true"><span class="octicon octicon-link"></span></a>Elección de Herramientas o Sistemas para el Desarrollo del Proyecto</h2>
 
 <h3>
+<a id="construcción" class="anchor" href="#construcci%C3%B3n" aria-hidden="true"><span class="octicon octicon-link"></span></a>Construcción</h3>
+
+<p>Para especificar y ejecutar tareas comunes o recurrentes en el desarrollo del proyecto, se ha decidido utilizar <a href="http://gruntjs.com/">Grunt</a>, una herramienta para automatizar actividades en <em>JavaScript</em>.</p>
+
+<p>Una de las principales ventajas de <em>Grunt</em> es que cuenta con numerosos complementos (<em>plugins</em>) que permiten automatizar prácticamente cualquier actividad que deba ser llevada a cabo en el desarrollo del proyecto de forma reiterada, tales como instalación de dependencias, análisis sintáctico del código fuente, minificación y/o concatenación de archivos <em>JS</em>, o ejecución de pruebas unitarias, entre muchas otras.</p>
+
+<p>En el archivo <a href="https://github.com/Gescosolution/Gesco-UserManagement/blob/master/Gruntfile.js">Gruntfile.js</a> del proyecto se pueden ver las especificaciones de dichas actividades o tareas.</p>
+
+<h3>
 <a id="test" class="anchor" href="#test" aria-hidden="true"><span class="octicon octicon-link"></span></a>Test</h3>
 
 <p>Para definir y realizar las pruebas unitarias en el sistema, se ha seleccionado <a href="https://mochajs.org/">Mocha</a>, un <em>framework</em> de pruebas para <em>JavaScript</em> que permite realizar tests asíncronos sobre aplicaciones implementadas en <em>Node.js</em>.</p>
@@ -141,6 +152,8 @@
 <li>
 <em>supertest</em>: librería de aserciones para facilitar y simplificar las pruebas sobre servidores y solicitudes <em>HTTP</em>.</li>
 </ul>
+
+<p>En el archivo <a href="https://github.com/Gescosolution/Gesco-UserManagement/blob/master/test/test.js">test.js</a> del proyecto, se pueden observar las pruebas unitarias y grupos de tests que han sido definidos(as) durante el desarrollo actual.</p>
 
 <h3>
 <a id="integración-continua" class="anchor" href="#integraci%C3%B3n-continua" aria-hidden="true"><span class="octicon octicon-link"></span></a>Integración Continua</h3>
