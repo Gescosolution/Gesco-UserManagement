@@ -36,6 +36,8 @@
 
 <p>Submódulo correspondiente a la administración y control de datos de Usuarios y Empleados, enmarcado en la aplicación Gesco.</p>
 
+<p><a href="https://travis-ci.org/Gescosolution/Gesco-UserManagement"><img src="https://travis-ci.org/Gescosolution/Gesco-UserManagement.svg?branch=master" alt="Build Status"></a></p>
+
 <p>Publicado bajo licencia GNU GENERAL PUBLIC LICENSE Version 2.</p>
 
 <p>El presente módulo participa en el certamen de Proyectos libres de la Universidad de Granada 2015-2016, como parte del proyecto general <a href="https://github.com/Gescosolution/Gesco">Gesco</a>. Las bases de dicho certamen se encuentran <a href="https://docs.google.com/document/d/16UsdUV_XXuPUh-Imz4PSgh-2ES_YaAJpZ8fNrbTVpMA/edit">aquí</a>.</p>
@@ -110,6 +112,50 @@
 <ul>
 <li>La implementación, proceso de pruebas y despliegue del módulo se realizará aplicando los conceptos indicados en la asignatura, a saber: Desarrollo Basado en Pruebas, Distribución de Componentes, Integración Continua, Automatización de tareas y actividades, Aprovisionamiento de Software y Despliegue Automático.</li>
 <li>La integración del presente módulo con sistemas externos que no forman parte de la aplicación Gesco, y que, en principio, podrían estar distribuidos geográfica y tecnológicamente, tales como las fuentes de datos de empleados de cada oficina, o el sistema LDAP de autenticación centralizada.</li>
+</ul>
+
+<h2>
+<a id="elección-de-herramientas-o-sistemas-para-el-desarrollo-del-proyecto" class="anchor" href="#elecci%C3%B3n-de-herramientas-o-sistemas-para-el-desarrollo-del-proyecto" aria-hidden="true"><span class="octicon octicon-link"></span></a>Elección de Herramientas o Sistemas para el Desarrollo del Proyecto</h2>
+
+<h3>
+<a id="test" class="anchor" href="#test" aria-hidden="true"><span class="octicon octicon-link"></span></a>Test</h3>
+
+<p>Para definir y realizar las pruebas unitarias en el sistema, se ha seleccionado <a href="https://mochajs.org/">Mocha</a>, un <em>framework</em> de pruebas para <em>JavaScript</em> que permite realizar tests asíncronos sobre aplicaciones implementadas en <em>Node.js</em>.</p>
+
+<p>Las razones por las que se decidió utilizar este sistema de <em>Test</em> son las siguientes:</p>
+
+<ul>
+<li>Los <em>tests</em> son escritos con un "Desarrollo Basado en el Comportamiento" (<a href="https://en.wikipedia.org/wiki/Behavior-driven_development">Behavior-Driven Development</a> ó <a href="https://en.wikipedia.org/wiki/Behavior-driven_development">BDD</a>), utilizando una serie de sentencias o constructores que buscan simular el "lenguaje natural" (expresado en inglés). Esta manera de especificar las pruebas es sumamente intuitiva, y aún cuando no se esté muy familiarizado con el <em>framework</em>, se pueden empezar a diseñar <em>tests</em> realistas y relativamente complejos en poco tiempo.</li>
+<li>Se puede utilizar cualquier librería de aserciones (<em>assertions</em>) definida para realizar y especificar las pruebas, lo cual redunda en una alta flexibilidad y variedad al momento de diseñar los <em>tests</em>.</li>
+<li>Contiene múltiples elementos para facilitar las pruebas en ambientes asíncronos (representativo de <em>Node.js</em>).</li>
+<li>El <em>framework</em> de pruebas <em>mocha</em> se ejecuta en <em>Node.js</em>, por lo que presenta una alta integración y cohesión con este lenguaje, y permite realizar las pruebas de aplicaciones escritas en <em>Node.js</em> de forma mucho más sencilla y directa.</li>
+</ul>
+
+<p>Además del conjunto central de funcionalidades de <em>mocha</em>, fue necesario incluir otros módulos o componentes para realizar la totalidad de las pruebas definidas. Estos módulos/librerías son:</p>
+
+<ul>
+<li>
+<em>assert</em>: la librería básica para definir aserciones de prueba y validarlas en <em>Node.js</em>. Basicamente, es una manera de que <em>Node.js</em> ejecute pruebas o tests "sobre sí mismo". Con esta librería, se especifican sentencias que deben ser ciertas en un momento dado de la ejecución, y la librería valida que efectivamente sea así.</li>
+<li>
+<em>should</em>: una librería de aserciones más amplia y diversa que la anterior (<em>assert</em>). Además de sus extensiones de funcionalidad y mayor utilidad en general, una de sus principales ventajas es que permite especificar las sentencias de prueba de forma muy expresiva y natural.</li>
+<li>
+<em>supertest</em>: librería de aserciones para facilitar y simplificar las pruebas sobre servidores y solicitudes <em>HTTP</em>.</li>
+</ul>
+
+<h3>
+<a id="integración-continua" class="anchor" href="#integraci%C3%B3n-continua" aria-hidden="true"><span class="octicon octicon-link"></span></a>Integración Continua</h3>
+
+<p>Para llevar a cabo la integración continua se ha elegido el servicio <a href="https://travis-ci.org/">Travis CI</a>, para construir (<em>build</em>) y probar (<em>test</em>) aplicaciones escritas en múltiples lenguajes (particularmente <em>Node.js</em>) alojadas en <em>GitHub</em>.</p>
+
+<p>Las razones por las que se decidió utilizar este sistema de Integración Continua son las siguientes:</p>
+
+<ul>
+<li>Posee una alta integración con <em>GitHub</em>, pudiendo "activar" los repositorios sobre los cuales se quiere aplicar la integración continua de forma prácticamente directa.</li>
+<li>La configuración inicial es muy sencilla, ya que el archivo de configuración de la integración continua (<em>.travis.yml</em>) es muy fácil de elaborar, pero a la vez posee numerosas opciones para definir el ambiente de ejecución de la integración continua.</li>
+<li>Cada vez que se materialice un cambio en el repositorio de <em>GitHub</em>, se iniciará la ejecución de la integración continua y pruebas de forma automática.</li>
+<li>El servicio notifica de forma inmediata sobre los errores ocurridos en la construcción del proyecto</li>
+<li>El ambiente en el que se ejecutan las pruebas es altamente configurable, pudiendo ejecutar numerosas acciones e instalaciones (por ejemplo, de paquetes y otros programas), tal como si se estuviera en un sistema operativo independiente. De esta forma, si las pruebas requieren de sistemas "externos" (tal como <em>OpenLDAP</em> o <em>MySQL</em>), estos pueden ser instalados en el ambiente de ejecución de <em>Travis-CI</em> utilizando comandos <em>UNIX</em>.</li>
+<li>Los grupos de pruebas pueden ser ejecutados simultáneamente en diversas versiones de un mismo lenguaje de programación (validando la compatibilidad de la aplicación).</li>
 </ul>
       </section>
     </div>
