@@ -56,8 +56,12 @@ module.exports.controller = function(app) {
 		
 		} else {
 		
+			// Para incluir portabilidad en ambiente de despliegue de OpenShift
+			var ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+			var ldap_url = "ldap://"+ip_address+":3389/dc=localhost";
+		
 			// Definir conexión con servidor LDAP
-			var ldap_options = { url: 'ldap://127.0.0.1:3389/dc=localhost' };
+			var ldap_options = { url: ldap_url };
 			var ldap_conn = ldap.createClient(ldap_options);
 			
 			// Buscar usuario que solicita el inicio de sesión
