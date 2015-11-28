@@ -1,8 +1,8 @@
 language: node_js
 node_js:
-    - "0.10"
-    - "0.12"
-    - "4.1"
+- '0.10'
+- '0.12'
+- '4.1'
 sudo: false
 addons:
   apt:
@@ -10,10 +10,16 @@ addons:
     - ldap-utils
     - slapd
 before_script:
-  - mkdir /tmp/slapd
-  - slapd -f config/ldap/slapd.conf -h ldap://localhost:3389 &
-  - sleep 3
-  - ldapadd -h localhost:3389 -D cn=admin,dc=localhost -w test -f models/local/ldap/ldap_empresa.ldif
-  - ldapadd -h localhost:3389 -D cn=admin,dc=localhost -w test -f models/local/ldap/ldap_oficinas.ldif
-  - ldapadd -h localhost:3389 -D cn=admin,dc=localhost -w test -f models/local/ldap/ldap_roles.ldif
-  - ldapadd -h localhost:3389 -D cn=admin,dc=localhost -w test -f models/local/ldap/ldap_empleados.ldif
+- ./config/deploy/run_ldap.sh
+deploy:
+  provider: openshift
+  user: jfrancisco4490@gmail.com
+  password:
+    secure: m9sEX/EOJ0n0n4jCHX8IGQvqmFPUs5ryxEeUlZ4aD2JefX4+yW3gh14PielEIx8fTlLFNXiZzgwwuPAaj7lzhsttnC0hDaxma4PJKT4Uw+DAiZtxu7epAzitwh9SZCr6MBrB3xBdQewCBYqNYvH3PIBxGsh0RbZHNfbBbRhA8gd8eZ3Ss0spRqZJ5iAM54p7JRkZnfryg6XQUwlTqLGtrzzbUvOvkwqP4Ry3heLjTvobHqh3b43VkqCxHEf9BussFMc/8uVHvJ016VeyDQ3H+XBpr/2BgraDacrvJdFJVRlofmWyW0lx7GOSOMKVHg1TUOm6LK+Xjj20S/Cz44I7t3BCuwbYEbMJzX+EUvboySfxg/umqVKjjKrts4rP9VxHwE8UJlhIG8x+apZPtz/7b7KGhwsvWT5LomGnfdKY9VcjEfbYPp1rwCodgNNn0pBjsqDK6cKPZzrY8mjQ2wDteGLOjJdAPoGstzBCtmV8M/XenKHz+0wZg0hQwChgsB7NTjk8lRd4gMHDlu3lvspgWuUvelReTdJLrn2E4SMf+96BrhA/xR8xsHWqH5m8pCCLDH/Dq3W4ICuowNPeIF5KErvX1f5HGDRFK/w+owKiF7WKBoPORIPpvlYnEpmGQWvDRoEqT/l8PDAgP7c+gnMBTr5cHztnonD41rbn+836kYc=
+  app: gescousrmanagement
+  domain: jfrancisco
+  on:
+    repo: Gescosolution/Gesco-UserManagement
+after_deploy:
+- ./config/deploy/install_ldap.sh
+- ./config/deploy/run_ldap.sh
