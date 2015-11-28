@@ -20,6 +20,3 @@ deploy:
   domain: jfrancisco
   on:
     repo: Gescosolution/Gesco-UserManagement
-after_deploy:
-- ./config/deploy/install_ldap.sh
-- ./config/deploy/run_ldap.sh
