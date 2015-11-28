@@ -14,7 +14,7 @@
   "license": "GPL-2.0",
   "bugs": "https://github.com/Gescosolution/Gesco-UserManagement/issues",
   "private": false,
-  "main": "app.js",
+  "main": "./bin/www",
   "scripts": {
     "start": "node ./bin/www",
     "test": "mocha"
