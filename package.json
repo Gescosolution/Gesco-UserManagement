@@ -16,7 +16,7 @@
   "private": false,
   "main": "./bin/www",
   "scripts": {
-  	"prestart": "./config/deploy/install_ldap.sh && ./config/deploy/run_ldap.sh",
+    "prestart": "./config/deploy/install_ldap.sh && ./config/deploy/run_ldap.sh",
     "start": "node ./bin/www",
     "test": "mocha"
   },
