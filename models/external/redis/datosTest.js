@@ -4,8 +4,16 @@ var redis = require('redis');
 // Cargar módulo de Criptografia
 var MD5 = require('crypto-js/md5');
 
+// Configurar conexion a servidor Redis
+// Incluida portabilidad con OpenShift
+redis_host = process.env.OPENSHIFT_REDIS_HOST || '127.0.0.1';
+redis_port = process.env.OPENSHIFT_REDIS_PORT || '6379';
+redis_passw = process.env.REDIS_PASSWORD || '';
+			
+redis_url = "redis://:"+redis_passw+"@"+redis_host+":"+redis_port;
+			
 // Crear cliente para acceder al servidor Redis
-client = redis.createClient();
+client = redis.createClient(redis_url, {});
 
 // Conectar a base de datos "2"
 client.select(2);
