@@ -79,10 +79,6 @@ module.exports.controller = function(app) {
     						res.render('auth/auth', { title: 'GESCO - Iniciar Sesión', error: 'La combinación de nombre de usuario y contraseña es incorrecta' });
 						
 						} else {
-						
-							console.log(usuario_redis.password);
-							console.log(md5_password);
-
 
 							if(usuario_redis.password === md5_password){
 							
