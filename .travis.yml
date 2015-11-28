@@ -9,8 +9,6 @@ addons:
     packages:
     - ldap-utils
     - slapd
-before_script:
-- ./config/deploy/run_ldap.sh
 deploy:
   provider: openshift
   user: jfrancisco4490@gmail.com
