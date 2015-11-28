@@ -1,5 +1,0 @@
-dn: dc=localhost
-objectclass: dcObject
-objectclass: organization
-o: Localhost
-dc: localhost
