@@ -6,6 +6,8 @@ node_js:
 sudo: false
 services:
   - redis-server
+before_script:
+  - node ./models/external/redis/datosTest.js
 deploy:
   provider: openshift
   user: jfrancisco4490@gmail.com
