@@ -50,7 +50,7 @@ module.exports.controller = function(app) {
   
   		// Verificar que los campos ingresados no sean vacíos
 		if((username === null || username.trim().length < 1) ||
-		   (password === null || password.trim().legth < 1)){
+		   (password === null || password.trim().length < 1)){
 		
 			res.render('auth/auth', { title: 'GESCO - Iniciar Sesión', error: 'El nombre de usuario y/o la contraseña NO pueden ser vacíos(as)' });
 		
