@@ -13,7 +13,7 @@ var http = require('http');
  */
 
 var port_aux = normalizePort(process.env.PORT || '3000');
-var port = process.env.OPENSHIFT_NODEJS_PORT || port_aux
+var port = process.env.OPENSHIFT_NODEJS_PORT || port_aux;
 app.set('port', port);
 
 /**
