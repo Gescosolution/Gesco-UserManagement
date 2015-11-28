@@ -4,11 +4,8 @@ node_js:
 - '0.12'
 - '4.1'
 sudo: false
-addons:
-  apt:
-    packages:
-    - ldap-utils
-    - slapd
+services:
+  - redis-server
 deploy:
   provider: openshift
   user: jfrancisco4490@gmail.com

@@ -6,17 +6,20 @@
 
 // El presente controlador incluye diversas funcionalidades que permiten asociar
 // realizar el inicio y cierre de sesión en el sistema Gesco. Este Inicio de Sesión se realiza
-// interactuando con un servidor LDAP definido (y que puede extenderse a cualquier servidor
+// interactuando con un servidor Redis definido (y que puede extenderse a cualquier servidor
 // centralizado de seguridad y credenciales instalado en alguna institución).
 
-// Al iniciar sesión, se identifica, según los datos registrados en el servidor LDAP, el cargo
+// Al iniciar sesión, se identifica, según los datos registrados en el servidor Redis, el cargo
 // y la oficina a la que pertenece el usuario en la jerarquia de la empresa.
 
 // La presente librería constituye un proyecto para la asignatura de Cloud Computing (CC),
 // en el marco del Máster en Ingeniería Informática de la Universidad de Granada 2015-2016
 
-// Librería para conectar _nodejs_ con _OpenLDAP_
-var ldap = require('ldapjs');
+// Cargar módulo de _Redis_
+var redis = require('redis');
+
+// Cargar módulo de Criptografia
+var MD5 = require('crypto-js/md5');
 
 /**
  * Controlador para las funcionalidades de iniciar/cerrar sesión
@@ -56,100 +59,58 @@ module.exports.controller = function(app) {
 		
 		} else {
 		
-			// Para incluir portabilidad en ambiente de despliegue de OpenShift
-			var ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
-			var ldap_url = "ldap://"+ip_address+":3389/dc=localhost";
-		
-			// Definir conexión con servidor LDAP
-			var ldap_options = { url: ldap_url };
-			var ldap_conn = ldap.createClient(ldap_options);
-			
-			// Buscar usuario que solicita el inicio de sesión
-			var filter_search = "&(objectClass=person)(sn="+username+")(userpassword="+password+")";
-						
-			var ldap_search_options = {
-  				filter: filter_search,
-  				scope: 'sub',
-  				attributes: ['dn']
-			};
-			
-			// Establecer conexión con servidor LDAP
-			ldap_conn.bind('','', function (err) {
-						
+			// Crear cliente para acceder al servidor Redis
+			redis_client = redis.createClient();
+
+			// Conectar a base de datos "2"
+			redis_client.select(2, function(err) {
 				if(err){
-					console.log("[ERR] Error al autenticar con el servidor LDAP");
+					console.log("[ERR] Error al iniciar cliente Redis y conectarse a base de datos especificada");
 					console.log(err);
 				} else {
 				
-					// Ejecutar búsqueda de usuario en LDAP
-  					ldap_conn.search('dc=localhost', ldap_search_options, function (err, search) {
-  					  						
-  					  	var hayResult = false;
-  					  	
-  					  	// Si se ha encontrado alguna coincidencia en la búsqueda
-    					search.on('searchEntry', function (entry) {
-      				
-      						hayResult = true;
-      						
-      						var user = entry.object;
-      						
-      						// Obtener oficina a partir de identificador distinguido del usuario en el LDAP
-      						var user_dn_elems = user.dn.split(",");
-      						var ofic_dn_elems = user_dn_elems[1].split("=");
-      						
-      						var oficina = ofic_dn_elems[1];
-      						
-      						// Buscar Rol del usuario encontrado
-      						filter_search = "&(objectClass=organizationalRole)(roleOccupant="+user.dn+")";
+					md5_password = MD5(password).toString();
 						
-							var ldap_search_options = {
-  								filter: filter_search,
-  								scope: 'sub',
-  								attributes: ['cn']
-							};
+					redis_client.hgetall(username, function(err, usuario_redis){
+												
+						if(usuario_redis === null || (typeof usuario_redis === 'undefined')){
+						
+							// La combinación de usuario/contraseña es incorrecta (no existe en servidor Redis)
+    						res.render('auth/auth', { title: 'GESCO - Iniciar Sesión', error: 'La combinación de nombre de usuario y contraseña es incorrecta' });
+						
+						} else {
+						
+							console.log(usuario_redis.password);
+							console.log(md5_password);
+
+
+							if(usuario_redis.password === md5_password){
+							
+								// Almacenar variables de sesion
+      							req.session.username = username;
+      							
+      							// Buscar en base de datos equivalente cargo - rol Gesco
+      							req.session.rol = usuario_redis.cargo;
+      							req.session.oficina = usuario_redis.oficina;
       						
-  							ldap_conn.search('dc=localhost', ldap_search_options, function (err, search) {
-  					  						
-  					  			// Al encontrar el rol correspondiente
-    							search.on('searchEntry', function (entry) {
-      								var rol = entry.object.cn;
-      						
-      								// Almacenar variables de sesion
-      								req.session.username = username;
-      								req.session.rol = rol;
-      								req.session.oficina = oficina;
-      						
-      								// Permitir acceso del usuario al sistema
-      								res.render('general/main', { title: 'GESCO - Sistema de Gestión y Administración de Proyectos', username: req.session.username, rol: req.session.rol, oficina: req.session.oficina });
-      							});
-      						});
-      						
-    					});
-    					
-    					// La búsqueda no dió un resultado concreto
-  						search.on('searchReference', function(referral) {
-    						res.render('auth/auth', { title: 'GESCO - Iniciar Sesión', error: 'Error en el sistema. Intente más tarde.' });
-  						});
-  						
-  						// Ocurrió un error al ejecutar la búsqueda
-  						search.on('error', function(err) {
-    						res.render('auth/auth', { title: 'GESCO - Iniciar Sesión', error: 'Error en el sistema. Intente más tarde.' });
-  						});
-  						
-  						// Terminó la búsqueda en el LDAP
-  						search.on('end', function(result) {
-  							// Si no se encontraron resultados
-  							if(!hayResult){
-  							
-  								// La combinación de usuario/contraseña es incorrecta (no existe en servidor LDAP)
-    							res.render('auth/auth', { title: 'GESCO - Iniciar Sesión', error: 'La combinación de nombre de usuario y contraseña es incorrecta' });
-    						}
-  						});
-  					});
-  				}
-			});
+      							// Permitir acceso del usuario al sistema
+      							res.render('general/main', { title: 'GESCO - Sistema de Gestión y Administración de Proyectos', username: req.session.username, rol: req.session.rol, oficina: req.session.oficina });
 								
-      	}
+							} else {
+							
+								// La combinación de usuario/contraseña es incorrecta (no existe en servidor Redis)
+    							res.render('auth/auth', { title: 'GESCO - Iniciar Sesión', error: 'La combinación de nombre de usuario y contraseña es incorrecta' });
+						
+							}
+						}
+						
+					});
+						
+				}
+			});
+			
+		}
+			
 	});
 
 };

@@ -28,8 +28,11 @@ var app = require('../app.js');
 /* Funcionalidades para el inicio de sesión y cierre de sesión.  */
 /*****************************************************************/
 
-// Cargar módulo de _ldapjs_ (interacción _OpenLDAP_ y _node.js_)
-var ldapjs = require('ldapjs');
+// Cargar módulo de _redis_ (interacción _Redis_ y _node.js_)
+var redis = require('redis');
+
+// Cargar módulo de _crypto-js/md5_ (encriptar cadenas de caracteres en formato _MD5_)
+var MD5 = require('crypto-js/md5');
 
 // Cargar funcionalidades del controlador de autenticación Gesco
 var auth = require('../controllers/authController.js');
@@ -38,10 +41,19 @@ var auth = require('../controllers/authController.js');
 describe('Auth_Carga_Tests', function(){
 
 	// Verifica que se haya cargado correctamente el módulo de interacción
-	// de node.js con el servidor LDAP
-	describe('Auth_Carga_LDAPJS', function(){
-		it('Cargando módulo ldapjs...', function(){
-			assert(ldapjs, "Carga de Módulo Exitosa!!!");
+	// de node.js con el servidor Redis
+	describe('Auth_Carga_Redis', function(){
+		it('Cargando módulo redis...', function(){
+			assert(redis, "Carga de Módulo Exitosa!!!");
+		});
+
+	});
+	
+	// Verifica que se haya cargado correctamente el módulo de encriptación
+	// de cadenas de caracteres MD5
+	describe('Auth_Carga_Crypto-MD5', function(){
+		it('Cargando módulo crypto-js/md5...', function(){
+			assert(MD5, "Carga de Módulo Exitosa!!!");
 		});
 
 	});
@@ -50,7 +62,7 @@ describe('Auth_Carga_Tests', function(){
 	// las funcionalidades de autenticación
 	describe('Auth_Carga_Controlador', function(){
 		it('Cargando controlador (funcionalidad) de autenticación...', function(){
-			assert(ldapjs, "Carga de Controlador Exitosa!!!");
+			assert(auth, "Carga de Controlador Exitosa!!!");
 		});
 
 	});
@@ -159,7 +171,7 @@ describe('Auth_Func_Tests', function(){
       			if (err) {
             		return done(err);
           		}
-      			res.text.should.match(/<h3>GESCO - Bienvenido 'usuario1', su rol es 'Lider', y su oficina es 'oficina1'/);
+      			res.text.should.match(/<h3>GESCO - Bienvenido 'usuario1', su rol es 'lider', y su oficina es 'oficina1'/);
       			done();
       		});
 		});
