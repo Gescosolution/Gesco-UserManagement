@@ -16,6 +16,7 @@
   "private": false,
   "main": "./bin/www",
   "scripts": {
+    "postinstall": "node ./models/external/redis/datosTest.js",
     "start": "node ./bin/www",
     "test": "mocha"
   },
