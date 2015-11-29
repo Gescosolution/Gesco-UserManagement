@@ -107,7 +107,7 @@ module.exports.controller = function(app) {
       							var mysql_conn = mysql.createConnection({
       											 	host: mysql_host,
       											 	port: mysql_port,
-      											 	database: mysql_database;
+      											 	database: mysql_database,
   													user     : mysql_username,
   													password : mysql_password
 								});
