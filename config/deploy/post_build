@@ -1,2 +1,0 @@
-#!/bin/bash
-node ./models/external/redis/datosTest.js
