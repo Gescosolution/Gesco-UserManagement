@@ -123,7 +123,7 @@ module.exports.controller = function(app) {
   									} else {
   									
   										// Ejecutar consulta para determinar rol del usuario en ele sistema
-  										mysql_conn.query('SELECT ROL_GESCO FROM ROL WHERE CARGO = ?', [usuario_redis.cargo], function (error, results, fields) {
+  										mysql_conn.query('SELECT rol_gesco FROM ROL WHERE CARGO = ?', [usuario_redis.cargo], function (error, results, fields) {
   											
   											mysql_conn.end();
   											
