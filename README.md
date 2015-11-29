@@ -11,25 +11,9 @@ El presente módulo participa en el certamen de Proyectos libres de la Universid
 
 **Enlace al sitio _web_ en el que se describe el desarrollo del proyecto (_gh-pages_)**: [http://gescosolution.github.io/Gesco-UserManagement/](http://gescosolution.github.io/Gesco-UserManagement/)
 
-##Descripción
+##Documentación del proyecto
 
-Consiste en un módulo _web_ para el sistema Gesco (Manejo y Planificación de Proyectos). 
-
-Este módulo se encarga de gestionar, manejar y controlar la información correspondiente a los empleados de una determinada empresa. En principio, y para dar flexibilidad al sistema, se supone que la empresa puede tener múltiples oficinas y/o compañías filiales asociadas.
-
-El presente módulo también debe incluir el desarrollo de un mecanismo de autenticación en la aplicación. Este mecanismo debe adaptarse a los estándares de seguridad de la empresa, la cual podría tener desplegado en su plataforma interna un sistema de autenticación previo.
-
-La integración con los mecanismos de seguridad de la empresa deben extenderse incluso a la definición de roles en el sistema, sin necesidad de cambiar la estructura organizacional de la compañía. Es decir, el módulo debe asociar los cargos de trabajo existentes en la compañía, a un rol válido y definido en el sistema de permisos de la aplicación Gesco.
-
-Corresponde al módulo de Gesco integrarse con el sistema centralizado de seguridad y manejo de roles de la compañía, a fin de identificar el perfil del usuario que solicita el acceso a la aplicación, así como las funcionalidades o actividades que puede llevar a cabo (o no) en el sistema.
-
-Además del área de autenticación y usuarios, el presente módulo también debe incluir un área de ingreso y edición de datos de empleados de la empresa.
-
-Como ya se ha indicado, la empresa puede contar con numerosas oficinas y/o empresas filiales, cada una de las cuales podría tener un sistema de almacenamiento de datos de empleados que sea independiente al resto. Por ello, es necesario que el sistema se comunique con las bases de datos de cada oficina, a fin de consultar los datos de los empleados que tienen registrados, y poder realizar una especie de _importación_ en la plataforma (evitar inconsistencias al momento de registrar los datos de un nuevo empleado en Gesco).
-
-##Documentación Adicional
-
-A continuación se listan algunos enlaces a información adicional de interés sobre el desarrollo del proyecto, y su respectiva implementación:
+A continuación se listan algunos enlaces con información de interés sobre el desarrollo del proyecto, y su respectiva implementación:
 
 * **Descripción Detallada:** Especificación de requerimientos del sistema, motivación del proyecto e infraestructura virtual a ser utilizada. Puede ser consultada [aquí](https://github.com/Gescosolution/Gesco-UserManagement/blob/master/docs/project/Detalles.md).
 * **Selección de Herramientas:** Criterios utilizados para elegir las herramientas de construcción y despliegue de la aplicación. Puede ser consultada [aquí](https://github.com/Gescosolution/Gesco-UserManagement/blob/master/docs/project/Herramientas.md).
@@ -88,4 +72,4 @@ A continuación se listan algunos enlaces a información adicional de interés s
 
 * Iniciar aplicación
 
-`npm start`
+ `npm start`
