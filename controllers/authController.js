@@ -21,6 +21,9 @@ var redis = require('redis');
 // Cargar módulo de Criptografia
 var MD5 = require('crypto-js/md5');
 
+// Cargar módulo de _MySQL_
+var mysql = require('mysql');
+
 /**
  * Controlador para las funcionalidades de iniciar/cerrar sesión
  */
@@ -80,7 +83,9 @@ module.exports.controller = function(app) {
 					md5_password = MD5(password).toString();
 						
 					redis_client.hgetall(username, function(err, usuario_redis){
-												
+									
+						redis_client.quit();
+									
 						if(usuario_redis === null || (typeof usuario_redis === 'undefined')){
 						
 							// La combinación de usuario/contraseña es incorrecta (no existe en servidor Redis)
@@ -89,16 +94,68 @@ module.exports.controller = function(app) {
 						} else {
 
 							if(usuario_redis.password === md5_password){
-							
-								// Almacenar variables de sesion
-      							req.session.username = username;
       							
-      							// Buscar en base de datos equivalente cargo - rol Gesco
-      							req.session.rol = usuario_redis.cargo;
-      							req.session.oficina = usuario_redis.oficina;
+      							// Buscar en base de datos rol Gesco correspondiente a cargo del usuario
+      							// Incluida portabilidad con Openshift
+      							var mysql_host = process.env.OPENSHIFT_MYSQL_DB_HOST || '127.0.0.1';
+      							var mysql_port = process.env.OPENSHIFT_MYSQL_DB_PORT || '3306';
+      							var mysql_database = "GESCO_USERMANAGEMENT";
+      							var mysql_username = process.env.OPENSHIFT_MYSQL_DB_USERNAME || '';
+      							var mysql_password = process.env.OPENSHIFT_MYSQL_DB_PASSWORD || '';
+      							
+      							// Definir conexión MySQL
+      							var mysql_conn = mysql.createConnection({
+      											 	host: mysql_host,
+      											 	port: mysql_port,
+      											 	database: mysql_database;
+  													user     : mysql_username,
+  													password : mysql_password
+								});
+ 
+ 								// Conectar a base de datos MySQL
+								mysql_conn.connect(function(err) {
+  
+  									if (err) {
+  									
+    									console.log("[ERR] Error al iniciar cliente MySQL y conectarse a base de datos especificada");
+										console.log(err);
+  									
+  									} else {
+  									
+  										// Ejecutar consulta para determinar rol del usuario en ele sistema
+  										mysql_conn.query('SELECT ROL_GESCO FROM ROL WHERE CARGO = ?', [usuario_redis.cargo], function (error, results, fields) {
+  											
+  											mysql_conn.release();
+  											
+  											if (err) {
+  									
+    											console.log("[ERR] Error al ejecutar consulta MySQL para seleccionar Rol del usuario");
+												console.log(err);
+  									
+  											} else {  
+
+												// Si el cargo del usuario se encuentra definido en la plataforma
+												if(results !== null && results.length > 0){
+      												
+      												// Almacenar variables de sesion
+      												req.session.username = username;
+      												req.session.rol = results[0].rol_gesco;
+      												req.session.oficina = usuario_redis.oficina;
       						
-      							// Permitir acceso del usuario al sistema
-      							res.render('general/main', { title: 'GESCO - Sistema de Gestión y Administración de Proyectos', username: req.session.username, rol: req.session.rol, oficina: req.session.oficina });
+      												// Permitir acceso del usuario al sistema
+      												res.render('general/main', { title: 'GESCO - Sistema de Gestión y Administración de Proyectos', username: req.session.username, rol: req.session.rol, oficina: req.session.oficina });
+	
+												} else {
+												
+													// El cargo del usuario en la empresa no concuerda un rol válido en el sistema
+    												res.render('auth/auth', { title: 'GESCO - Iniciar Sesión', error: 'El cargo del usuario en la empresa no concuerda con ningún rol en la plataforma GESCO' });
+													
+												}
+											}
+										});
+  									}
+ 
+								});
 								
 							} else {
 							

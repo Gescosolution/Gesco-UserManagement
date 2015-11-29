@@ -6,8 +6,13 @@ node_js:
 sudo: false
 services:
   - redis-server
+  - mysql
+  - postgresql
 before_script:
   - node ./models/external/redis/datosTest.js
+  - OPENSHIFT_MYSQL_DB_USERNAME=travis
+  - mysql < ./models/local/mysql/creacionTablasMySQL.sql
+  - mysql GESCO_USERMANAGEMENT < ./models/local/mysql/datosTestMySQL.sql
 deploy:
   provider: openshift
   user: jfrancisco4490@gmail.com

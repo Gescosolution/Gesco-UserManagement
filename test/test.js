@@ -34,6 +34,9 @@ var redis = require('redis');
 // Cargar módulo de _crypto-js/md5_ (encriptar cadenas de caracteres en formato _MD5_)
 var MD5 = require('crypto-js/md5');
 
+// Cargar módulo de _mysql_ (interacción _MySQL_ y _node.js_)
+var mysql = require('mysql');
+
 // Cargar funcionalidades del controlador de autenticación Gesco
 var auth = require('../controllers/authController.js');
 
@@ -54,6 +57,15 @@ describe('Auth_Carga_Tests', function(){
 	describe('Auth_Carga_Crypto-MD5', function(){
 		it('Cargando módulo crypto-js/md5...', function(){
 			assert(MD5, "Carga de Módulo Exitosa!!!");
+		});
+
+	});
+	
+	// Verifica que se haya cargado correctamente el módulo de interacción
+	// de node.js con el servidor MySQL
+	describe('Auth_Carga_MySQL', function(){
+		it('Cargando módulo mysql...', function(){
+			assert(mysql, "Carga de Módulo Exitosa!!!");
 		});
 
 	});
@@ -155,6 +167,24 @@ describe('Auth_Func_Tests', function(){
       			res.text.should.match(/<span class="error">La combinaci/);
       			res.text.should.match(/n de nombre de usuario y/);
       			res.text.should.match(/es incorrecta/);
+      			done();
+      		});
+		});
+	});
+	
+	// Prueba de ingreso de usuario correcto pero con un rol invalido en la plataforma
+	describe('Ingresar_Rol_Incorrecto', function(){
+		it('Ingresando usuario con Cargo/Rol inválido...', function(done){
+    		request(app)
+      		.post('/login')
+      		.send({username: "usuario8", password: "usuario8"})
+      		.expect(200)
+      		.end(function(err, res){
+      			if (err) {
+            		return done(err);
+          		}
+      			res.text.should.match(/<span class="error">El cargo del usuario en la empresa no concuerda con/);
+      			res.text.should.match(/rol en la plataforma GESCO/);
       			done();
       		});
 		});
