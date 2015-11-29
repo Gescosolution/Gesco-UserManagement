@@ -201,7 +201,7 @@ describe('Auth_Func_Tests', function(){
       			if (err) {
             		return done(err);
           		}
-      			res.text.should.match(/<h3>GESCO - Bienvenido 'usuario1', su rol es 'lider', y su oficina es 'oficina1'/);
+      			res.text.should.match(/<h3>GESCO - Bienvenido 'usuario1', su rol es 'Lider', y su oficina es 'Oficina1'/);
       			done();
       		});
 		});
