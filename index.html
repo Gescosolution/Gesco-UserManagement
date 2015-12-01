@@ -53,7 +53,7 @@
 
 <p>Este módulo se encarga de gestionar, manejar y controlar la información correspondiente a los empleados de una determinada empresa. En principio, y para dar flexibilidad al sistema, se supone que la empresa puede tener múltiples oficinas y/o compañías filiales asociadas.</p>
 
-<p>El presente módulo también debe incluir el desarrollo de un mecanismo de autenticación en la aplicación. Este mecanismo debe adaptarse a los estándares de seguridad de la empresa, la cual podría tener desplegado en su plataforma interna un sistema de autenticación previo, por ejemplo, basado en un <a href="https://es.wikipedia.org/wiki/Protocolo_Ligero_de_Acceso_a_Directorios">LDAP</a>.</p>
+<p>El presente módulo también debe incluir el desarrollo de un mecanismo de autenticación en la aplicación. Este mecanismo debe adaptarse a los estándares de seguridad de la empresa, la cual podría tener desplegado en su plataforma interna un sistema de autenticación previo.</p>
 
 <p>La integración con los mecanismos de seguridad de la empresa deben extenderse incluso a la definición de roles en el sistema, sin necesidad de cambiar la estructura organizacional de la compañía. Es decir, el módulo debe asociar los cargos de trabajo existentes en la compañía, a un rol válido y definido en el sistema de permisos de la aplicación Gesco.</p>
 
@@ -96,14 +96,14 @@
 <li>Al ser un sistema <em>web</em>, se elaborará bajo el patrón <a href="https://es.wikipedia.org/wiki/Modelo%E2%80%93vista%E2%80%93controlador">Modelo-Vista-Controlador</a>.</li>
 <li>Para la interfaz del sistema y navegación se utilizará el motor de plantillas <em>web</em> <a href="http://jade-lang.com/">JADE</a>.</li>
 <li>Para desarrollar y controlar la lógica del módulo, se empleará <a href="https://nodejs.org/en/">Node.js</a>.</li>
-<li>Para validar la integración del módulo con un sistema de autenticación externo, se configurará un servidor <em>LDAP</em>, utilizando <a href="http://www.openldap.org/">OpenLDAP</a>.</li>
+<li>Para validar la integración del módulo con un sistema de autenticación externo, se configurará un servidor <a href="http://redis.io/">Redis</a>.</li>
 <li>A fin de simular la distribución y carga de datos de empleados de diversas fuentes de datos, se definirán al menos dos (2) bases de datos: una con <a href="http://www.mysql.com/">MySQL</a>, y otra con <a href="https://voltdb.com/">VoltDB</a>.</li>
 <li>Se utilizará el <em>framework</em> <a href="http://expressjs.com/">Express</a>, para el desarrollo de aplicaciones <em>web</em> basadas en <em>Node.js</em>
 </li>
 <li>Para la realización de pruebas se empleará el <em>framework</em> <a href="https://mochajs.org/">Mocha</a>.</li>
 <li>Para la ejecución de la integración continua se planea utilizar el servicio <a href="https://travis-ci.org/">Travis CI</a>.</li>
 <li>El despliegue automático se realizará mediante <a href="https://www.npmjs.com/package/flightplan">Flightplan</a>.</li>
-<li>Finalmente, y al haber alcanzado un nivel de funcionalidad estable, desplegar el módulo en una plataforma ofrecida como servicio (<em>PaaS</em>), tal como <a href="https://azure.microsoft.com/en-us/">Microsoft Azure</a>. </li>
+<li>Finalmente, y al haber alcanzado un nivel de funcionalidad estable, desplegar el módulo en una plataforma ofrecida como servicio (<em>PaaS</em>), tal como <a href="https://www.openshift.com/">OpenShift</a>. </li>
 </ul>
 
 <h2>
@@ -170,6 +170,83 @@
 <li>El ambiente en el que se ejecutan las pruebas es altamente configurable, pudiendo ejecutar numerosas acciones e instalaciones (por ejemplo, de paquetes y otros programas), tal como si se estuviera en un sistema operativo independiente. De esta forma, si las pruebas requieren de sistemas "externos" (tal como <em>OpenLDAP</em> o <em>MySQL</em>), estos pueden ser instalados en el ambiente de ejecución de <em>Travis-CI</em> utilizando comandos <em>UNIX</em>.</li>
 <li>Los grupos de pruebas pueden ser ejecutados simultáneamente en diversas versiones de un mismo lenguaje de programación (validando la compatibilidad de la aplicación).</li>
 </ul>
+
+<h3>
+<a id="plataforma-como-servicio-paas" class="anchor" href="#plataforma-como-servicio-paas" aria-hidden="true"><span class="octicon octicon-link"></span></a>Plataforma como Servicio (<em>PaaS</em>)</h3>
+
+<p>Para el despliegue de la aplicación se ha elegido el servicio <a href="https://www.openshift.com/">OpenShift</a>, para publicar el contenido y funcionalidades del sistema en línea.</p>
+
+<p>Las razones por las que se decidió utilizar este sistema de Plataforma como Servicio son las siguientes:</p>
+
+<ul>
+<li>Cuenta con soporte para numerosos lenguajes de programación y aplicaciones de desarrollo <em>web</em>, tales como <em>Java</em>, <em>Python</em>, <em>PHP</em>, <em>Ruby</em>, y, por supuesto <em>node.js</em>.</li>
+<li>Provee acceso a almacenamiento persistente para las aplicaciones (<em>gears</em>), hasta un (1) Gb para cuentas gratuitas. Este almacenamiento permite incluir contenido generado por la aplicación u otro tipo de datos que deban conservarse en diferentes despliegues o ejecuciones del sistema.</li>
+<li>Dispone de un extenso grupo de servicios adicionales que pueden ser incluidos en el ambiente de la aplicación. Estos complementos, conocidos como "Cartuchos" (<em>Cartridges</em>) pueden ser declarados como dependencias de la aplicación durante la creación inicial del sistema, o pueden ser agregados de forma dinámica tras haber desplegado la aplicación (en caso de que ocurran cambios en la implementación o diseño del sistema).</li>
+<li>Entre los complementos más conocidos y utilizados, se encuentran los servicios de bases de datos, tanto tradicionales (<em>MySQL</em> y <em>PostgreSQL</em>), como novedosos (<em>Redis</em> y <em>MongoDB</em>, entre otros). Dado que el proyecto <em>Gesco-UserManagement</em> necesita integrar (o simular la integración) de diversas fuentes de datos, contar con múltiples opciones de prueba y configuración de estos servicios resulta sumamente útil.</li>
+<li>La configuración de los complementos adicionales (por ejemplo, aquellos que requieran autenticación, como <em>MySQL</em> o <em>PostgreSQL</em>) se realiza mediante el uso de variables de entorno que genera automáticamente la plataforma. Utilizando estas variables en el código de programación de la aplicación, se puede aumentar la portabilidad y compatibilidad del sistema en múltiples ambientes de desarrollo, prueba y despliegue (simplemente hay que definir estas variables en cada ambiente en el que se desee ejecutar la aplicación, utilizando la información del servicio que se esté utilizando).</li>
+<li>Los despliegues pueden configurarse para que se realicen automáticamente desde el sistema de Integración Continua. En el proyecto <em>Gesco-UserManagement</em> se utiliza <em>Travis-CI</em>, el cual puede ejecutar el despliegue de la aplicación en <em>OpenShift</em> tras superar exitosamente los <em>tests</em> unitarios que han sido definidos. La comunicación entre <em>Travis-CI</em> y <em>OpenShift</em> se realiza agregando sencillas instrucciones al archivo de configuración <em>.travis.yml</em> del proyecto.</li>
+<li>Se integra de forma automática y completa con la configuración del proyecto definida en el archivo <em>package.json</em>, así como con <em>npm</em>.</li>
+<li>Permite el acceso directo a los <em>logs</em> y otros archivos informativos de la aplicación (y cada uno de los despliegues de la misma).</li>
+<li>Permite realizar conexiones de tipo <em>SSH</em> a la aplicación desplegada, utilizando los comandos propios de <em>rhc</em>.</li>
+<li>Los comandos de <em>OpenShift</em> (<em>rhc</em>) permiten realizar numerosas acciones y operaciones sobre la aplicación deplegada, tales como crear nuevas aplicaciones, agregar complementos de forma dinámica, editar la configuración de una aplicación desplegada, consultar el estatus del sistema y los servicios agregados, etc.</li>
+<li>Las cuentas de tipo gratuita en <em>OpenShift</em> tienen acceso a todos los complementos y servicios adicionales (<em>cartridges</em>) disponibles. Esta opción no la tienen otros sistemas de Plataforma como Servicio gratuitos.</li>
+</ul>
+
+<p>Para configurar el despliegue automático de la aplicación en <em>OpenShift</em>, se siguieron los siguientes pasos:</p>
+
+<ul>
+<li>
+<p>Instalar herramienta de línea de comandos de <em>Travis-CI</em> (requiere al menos versión <em>1.9.3</em> de <em>Ruby</em>)</p>
+
+<p><code>gem install travis -v 1.8.0 --no-rdoc --no-ri</code></p>
+</li>
+<li>
+<p>Instalar herramienta de línea de comandos de <em>OpenShift</em> (requiere tener instalado <em>Ruby</em> y <em>Git</em>)</p>
+
+<p><code>gem install rhc</code></p>
+</li>
+<li>
+<p>Crear aplicación de <em>OpenShift</em> (con ambiente de despliegue de <em>node.js</em>)</p>
+
+<p><code>rhc app create gescousermanagement nodejs-0.10</code></p>
+</li>
+<li>
+<p>Configurar el archivo de configuración de <em>Travis-CI</em>, agregando la información necesaria en la sección <em>deploy</em> para realizar el despliegue automático de la aplicación en <em>OpenShift</em>. En esta sección se indican los datos de la cuenta de <em>OpenShift</em> que realizará el despliegue, la aplicación ya creada sobre la cual se actualizará el código fuente, y el dominio de <em>OpenShift</em> (ya definido) en el que se alojará la aplicación. Esta configuración puede ser realizada con el comando</p>
+
+<p><code>travis setup openshift</code></p>
+
+<p>La configuración anterior permite que <em>Travis-CI</em> despliegue automáticamente la aplicación en <em>OpenShift</em> cuando se ejecuten y superen de forma exitosa todos los <em>tests</em> unitarios definidos.</p>
+
+<p>El archivo de configuración de <em>Travis-CI</em> actualizado puede ser consultado <a href="https://github.com/Gescosolution/Gesco-UserManagement/blob/master/.travis.yml">aquí</a>.</p>
+</li>
+<li>
+<p>Agregar complemento (<em>cartridge</em>) para incluir servicio de <em>Redis</em> en la aplicación creada</p>
+
+<p><code>rhc add-cartridge http://cartreflect-claytondev.rhcloud.com/reflect?github=smarterclayton/openshift-redis-cart -a gescousermanagement</code></p>
+</li>
+<li>
+<p>Agregar complemento (<em>cartridge</em>) para incluir servicio de <em>MySQL</em> en la aplicación creada</p>
+
+<p><code>rhc cartridge add mysql-5.5 -a gescousermanagement</code></p>
+</li>
+<li>
+<p>Agregar complemento (<em>cartridge</em>) para incluir servicio de <em>PostgreSQL</em> en la aplicación creada</p>
+
+<p><code>rhc cartridge add postgresql-9.2 -a gescousermanagement</code></p>
+</li>
+<li>
+<p>Para incrementar la portabilidad de la aplicación entre los ambientes de desarrollo, pruebas y despliegue, se debe incluir en el código fuente de la aplicación el uso de las variables de entorno de <em>OpenShift</em>, especialmente aquellas definidas por los servicios adicionales. Algunos ejemplos de esto se pueden observar en:</p>
+
+<ul>
+<li>
+<a href="https://github.com/Gescosolution/Gesco-UserManagement/blob/master/controllers/authController.js">Controlador para Autenticación</a>: utilizando las variables de configuración de los servicios de <em>Redis</em> (<em>OPENSHIFT-REDIS-</em>...) y <em>MySQL</em> (<em>OPENSHIFT-MYSQL-DB-</em>...)</li>
+<li>
+<a href="https://github.com/Gescosolution/Gesco-UserManagement/blob/master/bin/www">Configuración de Servicio <em>Web</em> a desplegar</a>: incluyendo las variables de configuración del servidor <em>web</em> de <em>Express</em> para la publicación de la aplicación (<em>OPENSHIFT-NODEJS-</em>...)</li>
+</ul>
+</li>
+</ul>
+
+<p>El archivo con los comandos requeridos para la creación y definición de la infraestructura de la aplicación puede ser consultado en <a href="https://github.com/Gescosolution/Gesco-UserManagement/blob/master/config/deploy/appOpenShift.sh">appOpenShift.sh</a>.</p>
       </section>
     </div>
 
