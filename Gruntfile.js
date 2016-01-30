@@ -28,7 +28,7 @@ module.exports = function(grunt) {
   			dist: {
     			// Los archivos a concatenar
     			src: ['app.js','controllers/*.js','lib/*.js'],
-    			// La ubicaci—n del archivo JS resultante (concatenado)
+    			// La ubicacion del archivo JS resultante (concatenado)
     			dest: 'dist/<%= pkg.name %>.js'
   			}
 		},
