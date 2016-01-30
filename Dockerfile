@@ -38,6 +38,12 @@ RUN ln -s /usr/bin/nodejs /usr/bin/node
 RUN npm cache clean
 RUN npm install
 RUN npm install grunt-cli -g
-RUN grunt
+
+# Ejecutar actividades para despliegue de la aplicacion
+RUN grunt auto_install
+RUN grunt docco
+RUN grunt concat
+RUN grunt minify
+RUN grunt check
 
 CMD ["/bin/bash", "start_docker_image.sh"]
