@@ -44,7 +44,7 @@ module.exports = function(grunt) {
     			}
   			}
 		},
-		// Analizar sintacticamente el c—digo JS
+		// Analizar sintacticamente el codigo JS
 		jshint: {
   			// Definir los archivos a los que aplicar el analisis
   			all: ['Gruntfile.js','app.js','controllers/*.js','lib/*.js','test/**/*.js']
