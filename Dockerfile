@@ -1,4 +1,4 @@
-# Archivo para construcci—n de imagen Docker a partir del proyecto Gesco-UserManagement
+# Archivo para construccion de imagen Docker a partir del proyecto Gesco-UserManagement
 
 FROM ubuntu:14.04
 MAINTAINER Abel Francisco <jfrancisco4490@gmail.com>
@@ -28,7 +28,7 @@ RUN /usr/bin/redis-server &
 # Iniciar Servicio MySQL
 RUN /usr/bin/mysqld_safe &
 
-# Obtener œltima versi—n del proyecto Gesco-UserManagement
+# Obtener ultima version del proyecto Gesco-UserManagement
 RUN git clone https://github.com/Gescosolution/Gesco-UserManagement.git
 
 WORKDIR "/Gesco-UserManagement"
