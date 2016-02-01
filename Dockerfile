@@ -20,12 +20,15 @@ EXPOSE 6379
 # Exponer el puerto de MySQL del contenedor al Host
 EXPOSE 3306
 
-# Iniciar Servicios Adicionales
+# Definir directorio para almacenamiento de bases de datos
+VOLUME ["/gesco-user-management/db/data"]
 
-# Iniciar Servicio Redis
+# Inicializar Servicios Adicionales
+
+# Inicializar Servicio Redis
 RUN /usr/bin/redis-server &
 
-# Iniciar Servicio MySQL
+# Inicializar Servicio MySQL
 RUN /usr/bin/mysqld_safe &
 
 # Obtener ultima version del proyecto Gesco-UserManagement
