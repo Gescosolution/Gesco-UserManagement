@@ -103,3 +103,82 @@ Para configurar el despliegue automático de la aplicación en _OpenShift_, se s
  - [Configuración de Servicio _Web_ a desplegar](https://github.com/Gescosolution/Gesco-UserManagement/blob/master/bin/www): incluyendo las variables de configuración del servidor _web_ de _Express_ para la publicación de la aplicación (_OPENSHIFT-NODEJS-_...)
  
 El archivo con los comandos requeridos para la creación y definición de la infraestructura de la aplicación puede ser consultado en [appOpenShift.sh](https://github.com/Gescosolution/Gesco-UserManagement/blob/master/config/deploy/appOpenShift.sh).
+
+### Virtualización ligera (Contenedores)
+
+Para la construcción y despliegue de un ambiente de pruebas funcional para la aplicación desarrollada, se utilizan contenedores [_Docker_](https://www.docker.com/).
+
+Las razones para utilizar a _Docker_ como mecanismo de virtualización ligera con contenedores son las siguientes:
+
+* Despliegue rápido de aplicaciones. Los contenedores incluyen los requerimientos mínimos de ejecución de las aplicaciones, reduciendo su tamaño y permitiendo que sean desplegados de forma rápida y ágil.
+* Portabilidad entre distintos entornos (máquinas _host_). Una aplicación y todas sus dependencias son incluidas en un mismo y único contenedor que es independiente de la versión _Linux_ instalada en la máquina anfitriona, de la distribución de la plataforma, y del modelo de despliegue. Cualquier contenedor puede ser transferido a otra máquina que tenga instalado _Docker_, y ejecutado en esta sin ningún problema de compatibilidad.
+* Control de versiones y reutilización de componentes. Se pueden supervisar y revisar versiones sucesivas de un mismo contenedor, inspeccionar diferencias entre las mismas, o volver a versiones anteriores. Los contenedores reutilizan componentes de capas (_layers_) anteriores, lo cual los hace evidentemente más ligeros.
+* Los repositorios remotos pueden ser publicados y compartidos con otros desarrolladores.
+* Mantenimiento simplificado. Al utilizar _Docker_, se reduce el esfuerzo y los riesgos de problemas con las dependencias tecnológicas de las aplicaciones.
+
+Para configurar la creación de una imagen con un contenedor _Docker_ en la aplicación, se realizaron los siguientes pasos:
+
+* Definir un archivo de configuración de _Docker_, denominado _Dockerfile_, ubicado en el directorio principal (raíz) del proyecto. El archivo _Dockerfile_ creado cuenta con las siguientes características:
+
+ - Se especifica la imagen de _Docker_ base sobre la cual se definirán las dependencias de la aplicación, en este caso es una instalación simple de _Ubuntu 14.04_
+ 
+  `FROM ubuntu:14.04`
+ 
+ - Instalación de paquetes y herramientas requeridas por el proyecto para su construcción y despliegue. Se utiliza el gestor de componentes de _Ubuntu_ (_apt-get_) para instalar _git_ (descarga del repositorio con el proyecto), _NodeJS_ (lenguaje de programación sobre el que se construye y desarrolla la aplicación), _Redis_ y _MySQL_ (servicios de almacenamiento persistente de datos utilizado en el ambiente de pruebas de la aplicación)
+ 
+  ```
+  RUN apt-get update && apt-get install -y \
+	  git \
+	  git-core \
+	  nodejs \
+	  npm \
+	  redis-server \
+	  mysql-server \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
+  ```
+
+ - Exponer o publicar los puertos de los servicios de base de datos (_Redis_ y _MySQL_) a utilizar por la aplicación en el contenedor
+ 
+  ```
+  EXPOSE 6379
+  EXPOSE 3306
+  ```
+
+ - Definir un directorio de almacenamiento para guardar los datos, _logs_ y otros archivos de configuración propios de los servicios de base de datos instalados
+ 
+  `VOLUME ["/gesco-user-management/db/data"]`
+ 
+ - Inicializar los servicios de _Redis_ y _MySQL_ en el contendor (configuración básica por defecto)
+ 
+ - Clonar el repositorio con el código fuente asociado a la aplicación _Gesco-UserManagement_
+ 
+ - Definir como directorio base de trabajo para los comandos en el contenedor, al directorio del repositorio del proyecto
+ 
+  `WORKDIR "/Gesco-UserManagement"`
+  
+ - Instalar dependencias de la aplicación (librerías de _NodeJS_)
+ 
+ - Desplegar aplicación, utilizando _Grunt_. El archivo con las actividades de despliegue se puede identificar [aquí](https://github.com/Gescosolution/Gesco-UserManagement/blob/master/Gruntfile.js).
+ 
+ - Definir actividades a realizar de forma automática cuando se inicie (_run_) la imagen del contenedor. Las actividades a realizar están especificadas en un _script_ denominado [start_docker_image.sh](https://github.com/Gescosolution/Gesco-UserManagement/blob/master/start_docker_image.sh). Basicamente, las actividades son iniciar los servicios de _Redis_ y _MySQL_ (en segundo plano), y ejecutar la aplicación (_npm start_)
+ 
+ El archivo de configuración de _Docker_ puede ser consultado [aquí](https://github.com/Gescosolution/Gesco-UserManagement/blob/master/Dockerfile).
+ 
+* Asociar la cuenta en _Github_ en la que se encuentra el repositorio del proyecto con una cuenta correspondiente en [_Docker Hub_](https://hub.docker.com/).
+
+* Definir una "Construcción Automática" (_Automated Build_) de la imagen del contenedor _Docker_, desde _Docker Hub_. Con esto, cada vez que se realiza una actualización (_push_) del repositorio origen del código del proyecto, se re-construye de forma automática la imagen _Docker_ correspondiente.
+
+La imagen _Docker_ publicada del proyecto _Gesco-UserManagement_ puede ser consultada [aquí](https://hub.docker.com/r/jfrancisco4490/gesco-usermanagement/).
+
+Para descargar la imagen anterior, se puede utilizar directamente el comando
+
+ `docker pull jfrancisco4490/gesco-usermanagement`
+ 
+Para ejecutar la imagen tras su descarga, se ejecuta
+
+ `docker run jfrancisco4490/gesco-usermanagement`
+
+Si no se desea descargar directamente la imagen desde _Docker Hub_, se puede construir de forma local, utilizando el _Dockerfile_ anterior, y ejecutando el comando:
+
+`docker build -t <etiqueta_imagen> <ubicacion_dockerfile>`
